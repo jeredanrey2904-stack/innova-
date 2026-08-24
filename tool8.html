@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Herramientas | Panel Profesional</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #f59e0b;
+            --primary-hover: #d97706;
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --bg-sidebar: #020617;
+            --border-color: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-red: #ef4444;
+            --accent-green: #10b981;
+            --radius: 12px;
+            --transition: all 0.25s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* ===== LOGIN SCREEN ===== */
+        #login-screen {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.98);
+            backdrop-filter: blur(12px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .login-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .login-brand i { color: var(--primary); }
+
+        .login-subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .input-box {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .input-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .input-box input, .input-box textarea, .input-box select {
+            width: 100%;
+            padding: 12px 14px 12px 42px;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 14px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .input-box select {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .input-box textarea {
+            height: 90px;
+            resize: none;
+        }
+
+        .input-box input:focus, .input-box textarea:focus, .input-box select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            color: #fff;
+        }
+
+        .login-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        /* ===== LAYOUT DASHBOARD ===== */
+        #dashboard-layout {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 24px 16px;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 800;
+            padding: 0 12px 24px 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-brand i { color: var(--primary); font-size: 24px; }
+
+        .nav-menu {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--bg-card);
+            color: var(--text-main);
+        }
+
+        .nav-link.active i { color: var(--primary); }
+
+        .user-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            overflow: hidden;
+        }
+
+        .user-info i { font-size: 20px; color: var(--primary); }
+
+        .user-name {
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .btn-logout-icon {
+            background: none;
+            border: none;
+            color: var(--accent-red);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .btn-logout-icon:hover { background: rgba(239, 68, 68, 0.1); }
+
+        .main-wrapper {
+            margin-left: 260px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .topbar {
+            height: 70px;
+            background: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .topbar-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .topbar-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-icon-text {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .btn-icon-text:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .badge {
+            background: var(--primary);
+            color: #000;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        .content-area {
+            padding: 32px;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 24px;
+        }
+
+        .section-header h2 {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .card:hover {
+            border-color: rgba(245, 158, 11, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-img-box {
+            height: 180px;
+            background: #fff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-img-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .btn-delete-prod {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(239, 68, 68, 0.9);
+            color: #fff;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .btn-delete-prod:hover {
+            background: var(--accent-red);
+            transform: scale(1.1);
+        }
+
+        .product-badge-cat {
+            display: inline-block;
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .product-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .product-desc {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .product-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .btn-add-cart {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-add-cart:hover {
+            background: var(--primary-hover);
+            color: #fff;
+        }
+
+        .form-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 40px;
+        }
+
+        .file-input-wrapper {
+            border: 1px dashed var(--border-color);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 13px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .file-input-wrapper:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .file-input-wrapper input { display: none; }
+
+        /* ===== DRAWERS Y MODALES ===== */
+        .drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: none;
+            justify-content: flex-end;
+        }
+
+        .drawer-overlay.active { display: flex; }
+
+        .drawer {
+            width: 100%;
+            max-width: 420px;
+            height: 100%;
+            background: var(--bg-sidebar);
+            border-left: 1px solid var(--border-color);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .drawer-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .drawer-close:hover { color: var(--text-main); }
+
+        .drawer-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin: 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cart-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cart-item-title { font-size: 14px; font-weight: 700; }
+        .cart-item-price { font-size: 13px; color: var(--primary); font-weight: 700; }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-qty {
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .modal-center-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-center-overlay.active { display: flex; }
+
+        .invoice-card {
+            background: #fff;
+            color: #0f172a;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: var(--radius);
+            padding: 32px;
+        }
+
+        .inv-header { display: flex; justify-content: space-between; margin-bottom: 24px; }
+        .inv-title { font-size: 20px; font-weight: 800; color: #0f172a; }
+        .inv-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+        .inv-table th { background: #f1f5f9; text-align: left; padding: 8px; border-bottom: 1px solid #cbd5e1; }
+        .inv-table td { padding: 8px; border-bottom: 1px solid #e2e8f0; }
+        .inv-totals { width: 220px; margin-left: auto; font-size: 13px; }
+        .inv-totals td { padding: 4px 8px; }
+
+        @media print {
+            body * { visibility: hidden; }
+            #printable-invoice, #printable-invoice * { visibility: visible; }
+            #printable-invoice { position: absolute; left: 0; top: 0; width: 100%; }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PANTALLA DE INICIO / LOGIN -->
+    <div id="login-screen">
+        <div class="login-card">
+            <div class="login-brand">
+                <i class="fa-solid fa-hammer"></i>
+                <span>NOVA</span>
+            </div>
+            <p class="login-subtitle">Acceso al Panel Comercial</p>
+            
+            <div id="login-error" class="login-error">Credenciales incorrectas</div>
+
+            <form onsubmit="iniciarSesion(event)">
+                <div class="input-box">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="usuario" placeholder="Usuario (admin)" required>
+                </div>
+                <div class="input-box">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" placeholder="Contraseña (1234)" required>
+                </div>
+                <button type="submit" class="btn-primary">Ingresar al Sistema</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ESTRUCTURA PRINCIPAL (DASHBOARD) -->
+    <div id="dashboard-layout">
+        
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-hammer"></i>
+                <span>Nova Tools</span>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#new-prod-sec" class="nav-link active">
+                    <i class="fa-solid fa-plus-circle"></i> Nuevo Producto
+                </a>
+                <a href="#prod-sec" class="nav-link">
+                    <i class="fa-solid fa-boxes-stacked"></i> Catálogo
+                </a>
+                <a href="#serv-sec" class="nav-link">
+                    <i class="fa-solid fa-wrench"></i> Servicios
+                </a>
+                <a href="#quote-sec" class="nav-link">
+                    <i class="fa-solid fa-file-signature"></i> Cotizar
+                </a>
+            </nav>
+
+            <div class="user-panel">
+                <div class="user-info">
+                    <i class="fa-solid fa-circle-user"></i>
+                    <span class="user-name" id="user-display">Usuario</span>
+                </div>
+                <button class="btn-logout-icon" onclick="cerrarSesion()" title="Cerrar Sesión">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- WRAPPER DE CONTENIDO -->
+        <div class="main-wrapper">
+            
+            <!-- TOPBAR -->
+            <header class="topbar">
+                <div class="topbar-title">Ferretería Industrial</div>
+                <div class="topbar-actions">
+                    <button class="btn-icon-text" onclick="toggleDrawer('history-drawer')">
+                        <i class="fa-solid fa-clock-rotate-left"></i> Historial
+                    </button>
+                    <button class="btn-icon-text" onclick="toggleDrawer('cart-drawer')">
+                        <i class="fa-solid fa-cart-shopping"></i> Carrito
+                        <span class="badge" id="cart-count">0</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- ÁREA DE CONTENIDO -->
+            <main class="content-area">
+
+                <!-- FORMULARIO NUEVO PRODUCTO -->
+                <section id="new-prod-sec">
+                    <div class="form-card">
+                        <div class="section-header" style="margin-bottom: 16px;">
+                            <h2>Publicar Nuevo Producto</h2>
+                            <p>Sube productos al catálogo especificando detalles y categoría</p>
+                        </div>
+                        
+                        <form onsubmit="agregarProducto(event)">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+                                <div class="input-box" style="margin:0;">
+                                    <i class="fa-solid fa-tag"></i>
+                                    <input type="text" id="prod-nombre" placeholder="Nombre del producto" required>
+                                </div>
+
+                                <div class="input-box" style="margin:0;">
+                                    <i class="fa-solid fa-dollar-sign"></i>
+                                    <input type="number" step="0.01" id="prod-precio" placeholder="Precio ($)" required>
+                                </div>
+
+                                <div class="input-box" style="margin:0;">
+                                    <i class="fa-solid fa-layer-group"></i>
+                                    <select id="prod-categoria" required>
+                                        <option value="" disabled selected>Selecciona Categoría</option>
+                                        <option value="Herramientas Eléctricas">Herramientas Eléctricas</option>
+                                        <option value="Herramientas Manuales">Herramientas Manuales</option>
+                                        <option value="Medición y Precisión">Medición y Precisión</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 16px;">
+                                <div class="input-box" style="margin:0;">
+                                    <i class="fa-solid fa-align-left"></i>
+                                    <input type="text" id="prod-desc" placeholder="Descripción corta" required>
+                                </div>
+
+                                <label class="file-input-wrapper" style="margin:0;">
+                                    <i class="fa-solid fa-image"></i>
+                                    <span id="prod-file-label">Cargar Imagen del Producto</span>
+                                    <input type="file" id="prod-imagen" accept="image/*" onchange="actualizarLabelProducto(this)" required>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn-primary" style="margin-top: 20px;">
+                                <i class="fa-solid fa-plus"></i> Guardar y Publicar Producto
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN: PRODUCTOS -->
+                <section id="prod-sec">
+                    <div class="section-header">
+                        <h2>Catálogo de Productos</h2>
+                        <p>Selecciona artículos para venta inmediata o cotización</p>
+                    </div>
+
+                    <div class="grid-3" id="products-grid"></div>
+                </section>
+
+                <!-- SECCIÓN: SERVICIOS Y COTIZACIÓN -->
+                <div class="grid-2">
+                    <section id="serv-sec" class="card">
+                        <div class="section-header" style="margin-bottom: 16px;">
+                            <h2>Servicios Especializados</h2>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="display: flex; gap: 12px; align-items: center;">
+                                <i class="fa-solid fa-screwdriver-wrench" style="color: var(--primary); font-size: 20px;"></i>
+                                <div>
+                                    <strong style="font-size: 14px;">Mantenimiento Preventivo</strong>
+                                    <p style="font-size: 12px; color: var(--text-muted);">Calibración y reparación de equipos eléctricos.</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 12px; align-items: center;">
+                                <i class="fa-solid fa-truck-fast" style="color: var(--primary); font-size: 20px;"></i>
+                                <div>
+                                    <strong style="font-size: 14px;">Logística en Obra</strong>
+                                    <p style="font-size: 12px; color: var(--text-muted);">Envíos directos a proyecto.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="quote-sec" class="card">
+                        <div class="section-header" style="margin-bottom: 16px;">
+                            <h2>Solicitar Cotización</h2>
+                        </div>
+                        <form onsubmit="procesarCotizacion(event)">
+                            <div class="input-box">
+                                <i class="fa-solid fa-user"></i>
+                                <input type="text" id="quote-name" placeholder="Tu nombre" required>
+                            </div>
+                            <div class="input-box">
+                                <i class="fa-solid fa-message"></i>
+                                <textarea id="quote-msg" placeholder="Detalla los productos requeridos..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary">Enviar Solicitud</button>
+                        </form>
+                    </section>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- DRAWER: CARRITO DE COMPRAS -->
+    <div class="drawer-overlay" id="cart-drawer">
+        <div class="drawer">
+            <div class="drawer-header">
+                <h3>Carrito de Compras</h3>
+                <button class="drawer-close" onclick="toggleDrawer('cart-drawer')">&times;</button>
+            </div>
+            <div class="drawer-content" id="cart-items"></div>
+            <div style="border-top: 1px solid var(--border-color); padding-top: 16px;">
+                <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; margin-bottom: 16px;">
+                    <span>Total:</span>
+                    <span id="cart-total" style="color: var(--primary);">$0.00</span>
+                </div>
+                <button class="btn-primary" onclick="generarFactura()">Facturar y Procesar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DRAWER: HISTORIAL DE ÓRDENES -->
+    <div class="drawer-overlay" id="history-drawer">
+        <div class="drawer">
+            <div class="drawer-header">
+                <h3>Historial de Órdenes</h3>
+                <button class="drawer-close" onclick="toggleDrawer('history-drawer')">&times;</button>
+            </div>
+            <div class="drawer-content" id="history-items"></div>
+        </div>
+    </div>
+
+    <!-- MODAL: FACTURA IMAPRIMIBLE -->
+    <div class="modal-center-overlay" id="invoice-modal">
+        <div class="invoice-card">
+            <div class="no-print" style="display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 16px;">
+                <button class="btn-primary" style="width: auto; padding: 6px 12px; background: #0284c7; color: #fff;" onclick="window.print()">Imprimir</button>
+                <button class="btn-primary" style="width: auto; padding: 6px 12px; background: var(--border-color); color: var(--text-main);" onclick="toggleModal('invoice-modal')">Cerrar</button>
+            </div>
+
+            <div id="printable-invoice">
+                <div class="inv-header">
+                    <div>
+                        <div class="inv-title">NOVA HERRAMIENTAS</div>
+                        <div style="font-size: 11px; color: #64748b;">Ferretería Industrial S.A. de C.V.</div>
+                    </div>
+                    <div style="text-align: right; font-size: 12px;">
+                        <div><strong>Nº:</strong> <span id="inv-num">NV-000</span></div>
+                        <div><strong>Fecha:</strong> <span id="inv-date">--/--/----</span></div>
+                    </div>
+                </div>
+
+                <!-- CAMPO ACTUALIZADO PARA MOSTRAR EL COMPRADOR -->
+                <div style="font-size: 13px; margin-bottom: 16px; padding: 10px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;">
+                    <strong>Cliente / Comprador:</strong> <span id="inv-client" style="font-weight: 700; color: #0284c7;">--</span>
+                </div>
+
+                <table class="inv-table">
+                    <thead>
+                        <tr>
+                            <th>Cant.</th>
+                            <th>Descripción</th>
+                            <th style="text-align: right;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inv-rows"></tbody>
+                </table>
+
+                <table class="inv-totals">
+                    <tr>
+                        <td>Subtotal:</td>
+                        <td style="text-align: right;" id="inv-subtotal">$0.00</td>
+                    </tr>
+                    <tr>
+                        <td>IVA (13%):</td>
+                        <td style="text-align: right;" id="inv-tax">$0.00</td>
+                    </tr>
+                    <tr style="font-weight: 800; border-top: 1px solid #cbd5e1;">
+                        <td>Total:</td>
+                        <td style="text-align: right;" id="inv-total-val">$0.00</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const defaultProducts = [
+            {
+                id: 1,
+                nombre: 'Rotomartillo SDS Plus 800W',
+                precio: 135.00,
+                categoria: 'Herramientas Eléctricas',
+                desc: 'Alto rendimiento para cincelado y perforación en concreto y mampostería.',
+                imagen: 'https://ecv2stgprod.freundferreteria.com/ecommerce-public-container/ad9fc575-f13b-475c-8822-22d6588cc1f5.jpg'
+            },
+            {
+                id: 2,
+                nombre: 'Esmeriladora Angular 4-1/2"',
+                precio: 78.50,
+                categoria: 'Herramientas Eléctricas',
+                desc: 'Diseño compacto con potente motor para cortes exigentes y desbaste.',
+                imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1G62qW6HAFVzl_Lyn90-iXXYrcc5JMfhYqo4UfZdj1z_wcizde6WjsHM&s=10'
+            },
+            {
+                id: 3,
+                nombre: 'Juego de Llaves Combinadas 12 Pcs',
+                precio: 45.00,
+                categoria: 'Herramientas Manuales',
+                desc: 'Fabricadas en cromo vanadio forjado para máximo torque y durabilidad.',
+                imagen: 'https://media.kleintools.io/images/original/klein/68404.jpg'
+            },
+            {
+                id: 4,
+                nombre: 'Nivel Láser Autonivelante 360°',
+                precio: 189.99,
+                categoria: 'Medición y Precisión',
+                desc: 'Líneas de alta visibilidad para trazados precisos e instalación profesional.',
+                imagen: 'https://crossmaster.com.ar/wp-content/uploads/9936180.jpg'
+            },
+            {
+                id: 5,
+                nombre: 'Taladro Eléctrico',
+                precio: 62.00,
+                categoria: 'Herramientas Eléctricas',
+                desc: 'Control de velocidad variable y empuñadura ergonómica antideslizante.',
+                imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVK75uS-WwTO7W0PjgWBte132gVCYum0MpZ-aaH7DjC33qVzaecMMQdqQ6&s=10'
+            }
+        ];
+
+        let currentUser = null;
+        let cart = [];
+        let historyOrders = [];
+        let productsList = [];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedCart = localStorage.getItem('nova_cart');
+            if (savedCart) cart = JSON.parse(savedCart);
+
+            const savedHistory = localStorage.getItem('nova_history');
+            if (savedHistory) historyOrders = JSON.parse(savedHistory);
+
+            const savedProds = localStorage.getItem('nova_products_catalog');
+            if (savedProds) {
+                productsList = JSON.parse(savedProds);
+            } else {
+                productsList = [...defaultProducts];
+            }
+
+            renderCatalog();
+            actualizarCarritoUI();
+
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('dashboard-layout').style.display = 'none';
+        });
+
+        function guardarEstado() {
+            localStorage.setItem('nova_cart', JSON.stringify(cart));
+            localStorage.setItem('nova_history', JSON.stringify(historyOrders));
+            localStorage.setItem('nova_products_catalog', JSON.stringify(productsList));
+        }
+
+        function iniciarSesion(e) {
+            e.preventDefault();
+            const user = document.getElementById('usuario').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            const err = document.getElementById('login-error');
+
+            if ((user === 'admin' && pass === '1234') || (user === 'trabinfo1234@gmail.com' && pass === 'trab1234')) {
+                currentUser = user;
+                err.style.display = 'none';
+                
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('dashboard-layout').style.display = 'flex';
+                document.getElementById('user-display').textContent = currentUser;
+
+                document.getElementById('usuario').value = '';
+                document.getElementById('password').value = '';
+            } else {
+                err.style.display = 'block';
+            }
+        }
+
+        function cerrarSesion() {
+            guardarEstado();
+            currentUser = null;
+            document.getElementById('dashboard-layout').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+        }
+
+        function toggleDrawer(id) {
+            const drawer = document.getElementById(id);
+            drawer.classList.toggle('active');
+            if (id === 'history-drawer' && drawer.classList.contains('active')) renderHistoryUI();
+        }
+
+        function toggleModal(id) {
+            document.getElementById(id).classList.toggle('active');
+        }
+
+        function actualizarLabelProducto(input) {
+            document.getElementById('prod-file-label').textContent = input.files[0] ? input.files[0].name : 'Cargar Imagen del Producto';
+        }
+
+        function agregarProducto(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('prod-nombre').value;
+            const precio = parseFloat(document.getElementById('prod-precio').value);
+            const categoria = document.getElementById('prod-categoria').value;
+            const desc = document.getElementById('prod-desc').value;
+            const fileInput = document.getElementById('prod-imagen');
+
+            if (fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const nuevoProducto = {
+                        id: Date.now(),
+                        nombre,
+                        precio,
+                        categoria,
+                        desc,
+                        imagen: evt.target.result
+                    };
+
+                    productsList.push(nuevoProducto);
+                    guardarEstado();
+                    renderCatalog();
+
+                    document.getElementById('prod-nombre').value = '';
+                    document.getElementById('prod-precio').value = '';
+                    document.getElementById('prod-categoria').value = '';
+                    document.getElementById('prod-desc').value = '';
+                    fileInput.value = '';
+                    document.getElementById('prod-file-label').textContent = 'Cargar Imagen del Producto';
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        }
+
+        function eliminarProducto(id) {
+            if (confirm('¿Estás seguro de que deseas eliminar este producto del catálogo?')) {
+                productsList = productsList.filter(p => p.id !== id);
+                guardarEstado();
+                renderCatalog();
+            }
+        }
+
+        function renderCatalog() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+
+            if (productsList.length === 0) {
+                grid.innerHTML = '<p style="color:var(--text-muted); grid-column: 1/-1; text-align:center;">No hay productos en el catálogo.</p>';
+                return;
+            }
+
+            productsList.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'card product-card';
+                const nombreSafe = p.nombre.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
+                card.innerHTML = `
+                    <button class="btn-delete-prod" onclick="eliminarProducto(${p.id})" title="Eliminar Producto">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                    <div>
+                        <div class="product-img-box">
+                            <img src="${p.imagen}" alt="${p.nombre}">
+                        </div>
+                        <span class="product-badge-cat">${p.categoria}</span>
+                        <div class="product-title">${p.nombre}</div>
+                        <div class="product-desc">${p.desc}</div>
+                    </div>
+                    <div class="product-bottom">
+                        <span class="product-price">$${p.precio.toFixed(2)}</span>
+                        <button class="btn-add-cart" onclick="agregarAlCarrito('${nombreSafe}', ${p.precio})">+ Agregar</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function agregarAlCarrito(nombre, precio) {
+            const match = cart.find(i => i.nombre === nombre);
+            if (match) match.cantidad++;
+            else cart.push({ nombre, precio, cantidad: 1 });
+            guardarEstado();
+            actualizarCarritoUI();
+        }
+
+        function cambiarCantidad(nombre, delta) {
+            const item = cart.find(i => i.nombre === nombre);
+            if (item) {
+                item.cantidad += delta;
+                if (item.cantidad <= 0) cart = cart.filter(i => i.nombre !== nombre);
+            }
+            guardarEstado();
+            actualizarCarritoUI();
+        }
+
+        function actualizarCarritoUI() {
+            const container = document.getElementById('cart-items');
+            container.innerHTML = '';
+            let total = 0;
+            let count = 0;
+
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-muted); text-align:center;">El carrito está vacío</p>';
+            } else {
+                cart.forEach(item => {
+                    total += item.precio * item.cantidad;
+                    count += item.cantidad;
+                    const el = document.createElement('div');
+                    el.className = 'cart-item';
+                    const nombreSafe = item.nombre.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    el.innerHTML = `
+                        <div>
+                            <div class="cart-item-title">${item.nombre}</div>
+                            <div class="cart-item-price">$${(item.precio * item.cantidad).toFixed(2)}</div>
+                        </div>
+                        <div class="qty-controls">
+                            <button class="btn-qty" onclick="cambiarCantidad('${nombreSafe}', -1)">-</button>
+                            <span>${item.cantidad}</span>
+                            <button class="btn-qty" onclick="cambiarCantidad('${nombreSafe}', 1)">+</button>
+                        </div>
+                    `;
+                    container.appendChild(el);
+                });
+            }
+
+            document.getElementById('cart-count').textContent = count;
+            document.getElementById('cart-total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // GENERACIÓN DE FACTURA (ACTUALIZADA CON COMPRADOR)
+        function generarFactura() {
+            if (cart.length === 0) return alert('Selecciona al menos un producto');
+
+            const now = new Date();
+            const invNum = 'NV-' + Math.floor(1000 + Math.random() * 9000);
+            const total = cart.reduce((acc, i) => acc + (i.precio * i.cantidad), 0);
+            const subtotal = total / 1.13;
+            const tax = total - subtotal;
+
+            document.getElementById('inv-num').textContent = invNum;
+            document.getElementById('inv-date').textContent = now.toLocaleDateString();
+            
+            // Asignación explícita del usuario que compró
+            document.getElementById('inv-client').textContent = currentUser || 'Usuario Anonimo';
+
+            const tbody = document.getElementById('inv-rows');
+            tbody.innerHTML = '';
+            cart.forEach(i => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${i.cantidad}</td>
+                        <td>${i.nombre}</td>
+                        <td style="text-align:right;">$${(i.precio * i.cantidad).toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('inv-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('inv-tax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('inv-total-val').textContent = `$${total.toFixed(2)}`;
+
+            historyOrders.unshift({
+                id: invNum,
+                usuario: currentUser || 'Usuario Anonimo',
+                fecha: now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                items: [...cart],
+                total: total
+            });
+
+            cart = [];
+            guardarEstado();
+            actualizarCarritoUI();
+            toggleDrawer('cart-drawer');
+            toggleModal('invoice-modal');
+        }
+
+        // HISTORIAL DE ÓRDENES (ACTUALIZADO CON COMPRADOR)
+        function renderHistoryUI() {
+            const container = document.getElementById('history-items');
+            container.innerHTML = '';
+
+            if (historyOrders.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-muted); text-align:center;">Sin órdenes registradas</p>';
+                return;
+            }
+
+            historyOrders.forEach(ord => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.style.marginBottom = '12px';
+                card.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:6px;">
+                        <strong style="color:var(--primary);">${ord.id}</strong>
+                        <span style="color:var(--text-muted);">${ord.fecha}</span>
+                    </div>
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">
+                        <i class="fa-solid fa-user" style="margin-right: 4px;"></i> Comprado por: <strong style="color:var(--text-main);">${ord.usuario}</strong>
+                    </div>
+                    <div style="font-size:13px; font-weight:700; justify-content:space-between; display:flex; border-top: 1px solid var(--border-color); padding-top: 6px;">
+                        <span>Total:</span>
+                        <span style="color:var(--primary);">$${ord.total.toFixed(2)}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function procesarCotizacion(e) {
+            e.preventDefault();
+            alert('Cotización enviada con éxito');
+            document.getElementById('quote-name').value = '';
+            document.getElementById('quote-msg').value = '';
+        }
+    </script>
+</body>
+</html>
